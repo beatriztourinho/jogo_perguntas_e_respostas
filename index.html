@@ -1,0 +1,131 @@
+<head>
+    <meta charset="utf-8">
+    <title>Jogo de Perguntas e Respostas</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <p class="title">Bem vinde ao</p>
+        <p class="title title-bold">jogo de perguntas e respostas,</p>
+        <p class="title">vamos jogar?</p>
+    </header>
+
+    <main>
+        <div class="question-box">
+            <h2 class="question-title">QUAL É A CAPITAL DO BRASIL?</h2>
+            <div class="buttons">
+                <button class="wrong-answer">Salvador</button>
+                <button class="wrong-answer">Rio de Janeiro</button>
+                <button class="correct-answer">Brasília</button>
+                <button class="wrong-answer">São Paulo</button>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <h2 class="question-title">QUAL É A CAPITAL DA ANGOLA?</h2>
+            <div class="buttons">
+                <button class="correct-answer">Luanda</button>
+                <button class="wrong-answer">Benguela</button>
+                <button class="wrong-answer">Huambo</button>
+                <button class="wrong-answer">Luquembo</button>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <h2 class="question-title">QUAL É A CAPITAL DA CHINA?</h2>
+            <div class="buttons">
+                <button class="wrong-answer">Hong Kong</button>
+                <button class="correct-answer">Pequim</button>
+                <button class="wrong-answer">Xangai</button>
+                <button class="wrong-answer">Tianjin</button>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <h2 class="question-title">QUAL É A CAPITAL DA COLÔMBIA?</h2>
+            <div class="buttons">
+                <button class="wrong-answer">Cúcuta</button>
+                <button class="wrong-answer">Bucaramanga</button>
+                <button class="wrong-answer">Medellin</button>
+                <button class="correct-answer">Bogotá</button>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="question-box">
+            <h2 class="question-title">QUAL É A CAPITAL DO EGITO?</h2>
+            <div class="buttons">
+                <button class="wrong-answer">Luxor</button>
+                <button class="correct-answer">Cairo</button>
+                <button class="wrong-answer">Alexandria</button>
+                <button class="wrong-answer">Guizé</button>
+                <p></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <h2 class="text-score">Pontuação: <span class="score"></span></h2>
+    </footer>
+</body>
+
+<script>
+    let score = 0;
+
+    function updateScore() {
+        const span = document.querySelector(".score");
+        span.textContent = score;
+    }
+    updateScore();
+
+    const questionBoxes = document.querySelectorAll(".question-box");
+
+    questionBoxes.forEach(function (questionBox) {
+        const buttons = questionBox.querySelectorAll("button");
+        const answerFeedback = questionBox.querySelector("p");
+        let lastClicked = null;
+        let lastAnswerCorrect = false;
+
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const correctAnswerButton = questionBox.querySelector(".correct-answer");
+
+                const buttonsInQuestionBox = questionBox.querySelectorAll("button");
+                buttonsInQuestionBox.forEach(function (btn) {
+                    btn.classList.remove("selected-button");
+                });
+
+                button.classList.add("selected-button");
+
+                if (button === correctAnswerButton) {
+                    answerFeedback.textContent = "RESPOSTA CORRETA!"
+
+                    if (!lastAnswerCorrect) {
+                        score++;
+                        updateScore();
+                    };
+
+                    lastAnswerCorrect = true;
+                } else {
+                    answerFeedback.textContent = "RESPOSTA ERRADA!"
+
+                    if (lastAnswerCorrect && score > 0) {
+                        score--;
+                        updateScore();
+                    };
+
+                    lastAnswerCorrect = false;
+                };
+
+                lastClicked = button;
+            });
+        });
+    });
+</script>
